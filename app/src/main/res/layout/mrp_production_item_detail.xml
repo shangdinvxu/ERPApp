@@ -181,8 +181,6 @@
             android:layout_width="40dp"
             android:text="消耗的"
             android:layout_height="match_parent" />
-
-
     </LinearLayout>
 
 

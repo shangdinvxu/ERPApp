@@ -56,7 +56,7 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.second_fragment, null);
         ButterKnife.inject(this, view);
-        mrpApi = RetrofitClient.getInstance().create(MRPApi.class);
+        mrpApi = RetrofitClient.getInstance(getActivity()).create(MRPApi.class);
         getMrpProduction();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(layoutManager);

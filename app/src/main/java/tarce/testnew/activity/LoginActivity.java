@@ -9,12 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import greendao.DaoSession;
+import greendao.MenuListBeanDao;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
@@ -24,14 +29,18 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import tarce.testnew.GreenDaoManager;
 import tarce.testnew.IntentFactory;
+import tarce.testnew.MyApplication;
 import tarce.testnew.R;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.greendaoBean.LoginResponseBean;
+import tarce.testnew.greendaoBean.MenuListBean;
 import tarce.testnew.http.MyCallback;
+import tarce.testnew.http.OKHttpFactory;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.LoginApi;
 import tarce.testnew.http.bean.requestBean.LoginDatabase;
 import tarce.testnew.http.bean.requestBean.loginBean;
+import tarce.testnew.http.bean.responseBean.GetMenuListResponse;
 import tarce.testnew.http.bean.responseBean.LoginResponse;
 
 /**
@@ -51,14 +60,16 @@ public class LoginActivity extends Activity {
     private int databaseSwitch = 0;
     private LoginApi loginApi;
     private DaoSession daoSession;
+    private MenuListBeanDao menuListBeanDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        loginApi = RetrofitClient.getInstance().create(LoginApi.class);
+        loginApi = RetrofitClient.getInstance(LoginActivity.this).create(LoginApi.class);
         daoSession = GreenDaoManager.getInstance().getmDaoSession();
+        menuListBeanDao = daoSession.getMenuListBeanDao();
     }
 
 
@@ -106,7 +117,7 @@ public class LoginActivity extends Activity {
                                 dialog.show();
                             }
                         }
-            );
+                );
     }
 
     @OnClick(R.id.to_login)
@@ -118,6 +129,7 @@ public class LoginActivity extends Activity {
         Call<LoginResponse> stringCall = loginApi.toLogin(new loginBean(emailString, passwordString, chooseDB));
         stringCall.enqueue(new MyCallback<LoginResponse>() {
             private Call<String> menuListCall;
+
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body().getResult().getRes_code() == 1) {
@@ -128,9 +140,11 @@ public class LoginActivity extends Activity {
                             .subscribe(new Action1<LoginResponse.ResultBean.ResDataBean.GroupsBean>() {
                                 @Override
                                 public void call(LoginResponse.ResultBean.ResDataBean.GroupsBean groupsBean) {
-                                    daoSession.insertOrReplace(new LoginResponseBean(user_id, name, groupsBean.getName(), groupsBean.getId()));
+                                    daoSession.getLoginResponseBeanDao()
+                                            .insertOrReplace(new LoginResponseBean(user_id, name, groupsBean.getName(), groupsBean.getId()));
                                 }
                             });
+                    getMenuList();
                     IntentFactory.start_MainActivity(LoginActivity.this);
                 }
 
@@ -144,6 +158,43 @@ public class LoginActivity extends Activity {
         });
     }
 
-
-
+    public void getMenuList() {
+        loginApi.getMenuList().enqueue(new MyCallback<GetMenuListResponse>() {
+            @Override
+            public void onResponse(Call<GetMenuListResponse> call, Response<GetMenuListResponse> response) {
+                List<GetMenuListResponse.ResDataBean> res_data = response.body().getRes_data();
+                if (res_data.size() > 0) {
+                    int user_id = res_data.get(0).getUser_id();
+                    MyApplication.userID = user_id ;
+                    for (GetMenuListResponse.ResDataBean resDataBean :res_data) {
+                        menuListBeanDao.insertOrReplace(new MenuListBean(resDataBean.getId(), resDataBean.getAction()
+                                , resDataBean.getSequence(), resDataBean.getWeb_icon(), resDataBean.getName()
+                                , user_id, resDataBean.isParent_id() ? -1 : 0));
+                        if (resDataBean.getChildren().size() > 0) {
+                            List<GetMenuListResponse.ChildBean> children = resDataBean.getChildren();
+                            for (GetMenuListResponse.ChildBean children1 : children) {
+                                String[] parent_id = children1.getParent_id();
+                                String parentID = parent_id[0];
+                                menuListBeanDao.insertOrReplace(
+                                        new MenuListBean(children1.getId(), children1.getAction(),
+                                                children1.getSequence(), children1.getWeb_icon()
+                                                , children1.getName(),user_id, Integer.parseInt(parentID)));
+                                if (children1.getChildren().size() > 0) {
+                                    List<GetMenuListResponse.ChildBean> children3 = children1.getChildren();
+                                    for (GetMenuListResponse.ChildBean childrenMinUnit : children3) {
+                                        String[] parent_idMinUnit = childrenMinUnit.getParent_id();
+                                        String parentMinUnitID = parent_idMinUnit[0];
+                                        menuListBeanDao.insertOrReplace(
+                                                new MenuListBean(childrenMinUnit.getId(), childrenMinUnit.getAction(),
+                                                        childrenMinUnit.getSequence(), childrenMinUnit.getWeb_icon()
+                                                        , childrenMinUnit.getName(), user_id, Integer.parseInt(parentMinUnitID)));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

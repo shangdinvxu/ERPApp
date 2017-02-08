@@ -40,10 +40,11 @@ public class GreenDaoManager {
     private void init()
     {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(MyApplication.getContext(),
-                "LOGIN_RESPONSE_BEAN");
+                "Odoo");
         mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }
+
     public DaoMaster getmDaoMaster()
     {
         return mDaoMaster;

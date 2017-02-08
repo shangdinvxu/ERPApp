@@ -48,7 +48,9 @@ public class LoginResponseBeanDao extends AbstractDao<LoginResponseBean, Void> {
                 "\"GROUPS_NAME\" TEXT," + // 2: groupsName
                 "\"GROUPS_ID\" INTEGER NOT NULL );"); // 3: groupsId
         // Add Indexes
-        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_LOGIN_RESPONSE_BEAN_GROUPS_ID ON LOGIN_RESPONSE_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_LOGIN_RESPONSE_BEAN_USER_ID ON LOGIN_RESPONSE_BEAN" +
+                " (\"USER_ID\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_LOGIN_RESPONSE_BEAN_GROUPS_ID ON LOGIN_RESPONSE_BEAN" +
                 " (\"GROUPS_ID\" ASC);");
     }
 

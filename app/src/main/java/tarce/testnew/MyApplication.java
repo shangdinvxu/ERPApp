@@ -13,6 +13,7 @@ import butterknife.OnClick;
 
 public class MyApplication extends Application {
     private static Context context;
+    public static int userID ;
     @Override
     public void onCreate() {
         super.onCreate();

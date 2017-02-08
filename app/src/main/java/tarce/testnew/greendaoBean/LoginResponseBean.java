@@ -17,11 +17,11 @@ import org.greenrobot.greendao.annotation.Unique;
  */
 @Entity
 public class LoginResponseBean {
+    @Index
     private int user_id;
-
     private String name;
     private String groupsName ;
-    @Index(unique = true)
+    @Index
     private int  groupsId ;
     @Generated(hash = 476369623)
     public LoginResponseBean(int user_id, String name, String groupsName,

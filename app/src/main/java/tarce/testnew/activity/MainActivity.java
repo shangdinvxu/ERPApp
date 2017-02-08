@@ -21,12 +21,16 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import greendao.DaoSession;
+import greendao.MenuListBeanDao;
 import retrofit2.Call;
 import retrofit2.Response;
+import tarce.testnew.GreenDaoManager;
 import tarce.testnew.MainFragment.Homefragment;
 import tarce.testnew.MainFragment.SecondFragment;
 import tarce.testnew.MainFragment.ThreeFragment;
 import tarce.testnew.R;
+import tarce.testnew.greendaoBean.GreendaoUtils.MenuListBeanUtils;
 import tarce.testnew.http.MyCallback;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.LoginApi;
@@ -36,9 +40,10 @@ public class MainActivity extends AppCompatActivity
 
     @InjectView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
-
     private ArrayList<Fragment> fragments ;
-    private Object menuList;
+    private DaoSession daoSession;
+    private MenuListBeanDao menuListBeanDao;
+    private MenuListBeanUtils menuListBeanUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +61,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initButtomBar();
-        getMenuList();
+        daoSession = GreenDaoManager.getInstance().getmDaoSession();
+        menuListBeanDao = daoSession.getMenuListBeanDao();
+        menuListBeanUtils = new MenuListBeanUtils();
     }
+
+
+
     private void initButtomBar() {
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
@@ -67,8 +77,8 @@ public class MainActivity extends AppCompatActivity
                 .setText("5")
                 .setHideOnSelect(true);*/
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "Home").setActiveColor("#6495ED"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "Books").setActiveColor("#FFB6C1"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "itme1").setActiveColor("#6495ED"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "item2").setActiveColor("#FFB6C1"))
                /* .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "ggg").setActiveColor("#FF6347")
                         .setBadgeItem(numberBadgeItem))*/
                 .setFirstSelectedPosition(0)
@@ -154,14 +164,5 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void getMenuList() {
-        LoginApi loginApi = RetrofitClient.getInstance().create(LoginApi.class);
-        loginApi.getMenuList().enqueue(new MyCallback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-            }
-        });
 
-
-    }
 }

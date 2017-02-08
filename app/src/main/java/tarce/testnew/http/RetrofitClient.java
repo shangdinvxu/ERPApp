@@ -1,6 +1,8 @@
 package tarce.testnew.http;
 
 
+import android.content.Context;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,10 +14,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     private  static  Retrofit retrofit;
 
-   private RetrofitClient() {
+   private RetrofitClient(Context context) {
         retrofit = new Retrofit.Builder()
                 //设置OKHttpClient
-                .client(new OKHttpFactory().getOkHttpClient())
+                .client(new OKHttpFactory(context).getOkHttpClient())
 
                 //baseUrl
                 .baseUrl("http://192.168.2.111:8069/linkloving_app_api/")
@@ -25,9 +27,9 @@ public class RetrofitClient {
                 .build();
     }
 
-    public static Retrofit getInstance() {
+    public static Retrofit getInstance(Context context) {
         if (retrofit==null){
-            new RetrofitClient();
+            new RetrofitClient(context);
         }
         return retrofit;
     }
