@@ -1,5 +1,7 @@
 package tarce.testnew.activity;
 
+import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,14 +12,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,11 +32,16 @@ import greendao.MenuListBeanDao;
 import retrofit2.Call;
 import retrofit2.Response;
 import tarce.testnew.GreenDaoManager;
+import tarce.testnew.IntentFactory;
 import tarce.testnew.MainFragment.Homefragment;
 import tarce.testnew.MainFragment.SecondFragment;
 import tarce.testnew.MainFragment.ThreeFragment;
+import tarce.testnew.MyApplication;
 import tarce.testnew.R;
+import tarce.testnew.Utils.MyLog;
+import tarce.testnew.ViewUtil.SharePreferenceUtils;
 import tarce.testnew.greendaoBean.GreendaoUtils.MenuListBeanUtils;
+import tarce.testnew.greendaoBean.MenuListBean;
 import tarce.testnew.http.MyCallback;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.LoginApi;
@@ -38,12 +49,19 @@ import tarce.testnew.http.api.LoginApi;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationBar.OnTabSelectedListener {
 
+    private String TAG = this.getClass().getSimpleName();
+
     @InjectView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
     private ArrayList<Fragment> fragments ;
     private DaoSession daoSession;
     private MenuListBeanDao menuListBeanDao;
     private MenuListBeanUtils menuListBeanUtils;
+    private int userID;
+    private Menu navigationViewmenu;
+    private List<MenuListBean> menuByParentIdFirst;
+    private ImageView heardImageView;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,36 +69,53 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("myapp");
+        toolbar.setTitle("Odoo");
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        userID = MyApplication.userID;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationViewmenu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
         initButtomBar();
         daoSession = GreenDaoManager.getInstance().getmDaoSession();
         menuListBeanDao = daoSession.getMenuListBeanDao();
         menuListBeanUtils = new MenuListBeanUtils();
+        headerView = navigationView.getHeaderView(0);
+        initMenuList();
+        initListener();
     }
 
+    private void initListener() {
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharePreferenceUtils.putInt("user_id", -1000, MainActivity.this);
+                IntentFactory.start_LoginActivity(MainActivity.this);
+            }
+        });
+    }
+
+    private void initMenuList() {
+        menuByParentIdFirst = menuListBeanUtils.getMenuByParentId(userID, 0);
+        if (menuByParentIdFirst.size()>0){
+            for (int i = 0 ; i<menuByParentIdFirst.size();i++){
+                navigationViewmenu.add(i,i,i,menuByParentIdFirst.get(i).getName());
+            }
+        }
+
+    }
 
 
     private void initButtomBar() {
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
-    /*    BadgeItem numberBadgeItem = new BadgeItem()
-                .setBorderWidth(4)
-                .setBackgroundColorResource(R.color.colorPrimaryDark)
-                .setText("5")
-                .setHideOnSelect(true);*/
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "itme1").setActiveColor("#6495ED"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "item2").setActiveColor("#FFB6C1"))
-               /* .addItem(new BottomNavigationItem(R.drawable.ic_menu_gallery, "ggg").setActiveColor("#FF6347")
-                        .setBadgeItem(numberBadgeItem))*/
                 .setFirstSelectedPosition(0)
                 .initialise();
         fragments = getFragments();
@@ -120,21 +155,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int itemId = item.getItemId();
+        MyLog.e(TAG,"点击的ItemId"+itemId);
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        long id = menuByParentIdFirst.get(itemId).getId();
+        Intent intent = new Intent(MainActivity.this,SecondaryMenuActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

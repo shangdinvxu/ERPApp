@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_scan"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="tarce.testnew.activity.ScanActivity"
+    tools:showIn="@layout/activity_scan">
+
+
+
+    <EditText
+        android:id="@+id/sheetName"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:hint="请填写盘点单名"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:text="产品"
+            />
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:text="地点"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="理论数量"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="实际数量"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:text="提交库存"
+        android:id="@+id/submit_inventory"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+</LinearLayout>

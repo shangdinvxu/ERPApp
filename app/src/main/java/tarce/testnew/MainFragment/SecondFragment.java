@@ -116,7 +116,6 @@ public class SecondFragment extends Fragment {
                         mrpRecycleViewAdapter.notifyDataSetChanged();         //设置上拉加载更多结束
                         swipeToLoadLayout.setLoadingMore(false);
                     }
-
                     @Override
                     public void onFailure(Call<GetMrpProductionResponseBean> call, Throwable t) {
 

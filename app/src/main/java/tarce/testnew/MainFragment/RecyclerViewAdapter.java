@@ -19,7 +19,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_GROUP = 1;  
     private List<String> mData = new ArrayList<>();
     private Context mContext;
-  
+    private OnItemClickListener itemClickListener;
+
     private boolean isTitle(int pos){  
         if(mData.get(pos).startsWith("this is title:")) {  
             return true;  
@@ -49,7 +50,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }  
   
     @Override  
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {  
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        //为整体布局设置点击事件，触发接口的回调
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(itemClickListener!=null)
+                    itemClickListener.onItemClick(v, position);
+            }
+        });
+
         switch ( holder.getItemViewType () ) {  
             case TYPE_IMAGE:  
                 ImageViewHolder imageViewHolder = ( ImageViewHolder ) holder;  
@@ -78,7 +88,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }  
         return viewType;  
     }  
-  
+
+
+
+    public void setItemClickListener(OnItemClickListener onItemClickListener){
+        this.itemClickListener = onItemClickListener ;
+    }
+
+
+
     public class GroupViewHolder extends RecyclerView.ViewHolder {  
         TextView mTitle;
         public GroupViewHolder ( View itemView ) {

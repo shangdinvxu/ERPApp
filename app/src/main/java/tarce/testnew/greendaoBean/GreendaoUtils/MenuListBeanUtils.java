@@ -21,13 +21,20 @@ public class MenuListBeanUtils {
         this.menuListBeanDao = GreenDaoManager.getInstance().getmDaoSession().getMenuListBeanDao();
     }
 
-    private List<MenuListBean> getMenuByParentId(int userId, int parentId){
+    public List<MenuListBean> getMenuByParentId(int userId, int parentId){
         Query<MenuListBean> build = menuListBeanDao.queryBuilder()
                 .where(MenuListBeanDao.Properties.User_id.eq(userId), MenuListBeanDao.Properties.Parent_id.eq(parentId))
                 .orderAsc(MenuListBeanDao.Properties.Id)
                 .build();
         List<MenuListBean> list = build.list();
         return list ;
+    }
 
+    public List<MenuListBean> getMenuById(int userId,int id){
+        Query<MenuListBean> build = menuListBeanDao.queryBuilder()
+                .where(MenuListBeanDao.Properties.User_id.eq(userId), MenuListBeanDao.Properties.Id.eq(id))
+                .build();
+        List<MenuListBean> list = build.list();
+        return list ;
     }
 }

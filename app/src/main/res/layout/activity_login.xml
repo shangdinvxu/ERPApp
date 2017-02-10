@@ -20,6 +20,7 @@
             android:text="地址:"
             />
         <EditText
+            android:id="@+id/httpUrl"
             android:layout_centerVertical="true"
             android:layout_marginLeft="140dp"
             android:background="@color/white"

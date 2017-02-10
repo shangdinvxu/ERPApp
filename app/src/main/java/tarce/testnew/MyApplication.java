@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import butterknife.OnClick;
 
@@ -14,6 +15,7 @@ import butterknife.OnClick;
 public class MyApplication extends Application {
     private static Context context;
     public static int userID ;
+    public static String Url ;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,6 +25,7 @@ public class MyApplication extends Application {
         }
 //        GreenDao的初始化
         GreenDaoManager.getInstance();
+        ZXingLibrary.initDisplayOpinion(this);
 
     }
 
@@ -30,4 +33,6 @@ public class MyApplication extends Application {
     public static Context getContext(){
         return context;
     }
+
+
 }
