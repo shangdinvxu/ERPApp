@@ -9,11 +9,13 @@
 
     <TextView
         android:id="@+id/production"
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="match_parent"
+        android:textSize="13sp"
         android:text="产品"
         />
     <TextView
+        android:layout_marginLeft="2dp"
         android:id="@+id/location"
         android:layout_width="40dp"
         android:layout_height="match_parent"

@@ -1,16 +1,9 @@
-package tarce.testnew.greendaoBean;
-
-import android.widget.EditText;
+package tarce.testnew.greendao.greendaoBeans;
 
 import org.greenrobot.greendao.annotation.Entity;
 
-import java.util.List;
-
-import tarce.testnew.http.bean.responseBean.LoginResponse;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by Daniel.Xu on 2017/1/16.

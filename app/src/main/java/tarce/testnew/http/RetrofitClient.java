@@ -30,9 +30,7 @@ public class RetrofitClient {
     }
 
     public static Retrofit getInstance(Context context) {
-        if (retrofit==null){
             new RetrofitClient(context);
-        }
         return retrofit;
     }
 }

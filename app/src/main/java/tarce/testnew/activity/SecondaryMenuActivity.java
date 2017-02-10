@@ -1,7 +1,6 @@
 package tarce.testnew.activity;
 
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,19 +13,15 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import tarce.testnew.IntentFactory;
 import tarce.testnew.MainFragment.OnItemClickListener;
 import tarce.testnew.MainFragment.RecyclerViewAdapter;
 import tarce.testnew.MyApplication;
 import tarce.testnew.R;
-import tarce.testnew.greendaoBean.GreendaoUtils.MenuListBeanUtils;
-import tarce.testnew.greendaoBean.MenuListBean;
+import tarce.testnew.greendao.GreendaoUtils.MenuListBeanUtils;
+import tarce.testnew.greendao.greendaoBeans.MenuListBean;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.MRPApi;
-import tarce.testnew.http.bean.requestBean.GetStockInventoryRequestBean;
 
 public class SecondaryMenuActivity extends AppCompatActivity {
 

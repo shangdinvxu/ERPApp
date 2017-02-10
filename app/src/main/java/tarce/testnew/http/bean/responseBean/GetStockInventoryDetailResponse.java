@@ -238,24 +238,31 @@ public class GetStockInventoryDetailResponse {
                          * area_name : false
                          * id : false
                          */
+                        private Object id;
+                        private Object area_name;
 
-                        private boolean area_name;
-                        private boolean id;
-
-                        public boolean isArea_name() {
-                            return area_name;
-                        }
-
-                        public void setArea_name(boolean area_name) {
-                            this.area_name = area_name;
-                        }
-
-                        public boolean isId() {
+                        public Object getId() {
+                            if (id instanceof Boolean){
+                                id = 0 ;
+                            }
                             return id;
                         }
 
-                        public void setId(boolean id) {
+                        public void setId(int id) {
                             this.id = id;
+                        }
+
+                        public Object getName() {
+                            if (area_name instanceof Boolean){
+                                area_name = "";
+                            }else {
+                                area_name = area_name+"";
+                            }
+                            return area_name;
+                        }
+
+                        public void setName(String name) {
+                            this.area_name = name;
                         }
                     }
                 }

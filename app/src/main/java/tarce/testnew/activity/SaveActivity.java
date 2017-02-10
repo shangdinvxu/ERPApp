@@ -1,11 +1,9 @@
 package tarce.testnew.activity;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,9 +23,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,25 +36,25 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import greendao.SaveInventoryDao;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tarce.testnew.GreenDaoManager;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tarce.testnew.R;
 import tarce.testnew.Utils.AvatarHelper;
 import tarce.testnew.Utils.BitmapUtils;
-import tarce.testnew.Utils.GlideCacheUtil;
 import tarce.testnew.Utils.MyLog;
-import tarce.testnew.Utils.SaveLocalUtils;
 import tarce.testnew.Utils.SelectPicPopupWindow;
-import tarce.testnew.ViewUtil.SharePreferenceUtils;
-import tarce.testnew.greendaoBean.GreendaoUtils.SaveInventroyUtils;
-import tarce.testnew.greendaoBean.SaveInventory;
+import tarce.testnew.greendao.GreendaoUtils.SaveInventroyUtils;
+import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.MRPApi;
 import tarce.testnew.http.bean.requestBean.findProductByConditionRequest;
 import tarce.testnew.http.bean.responseBean.FindProductByConditionResponse;
+import tarce.testnew.http.bean.responseBean.GetAreaListResponse;
 
 public class SaveActivity extends AppCompatActivity {
     private  String TAG = this.getClass().getSimpleName();
@@ -104,6 +102,8 @@ public class SaveActivity extends AppCompatActivity {
     private static final int AVATAR_SIZE = 640;
     private View view;
     private SaveInventory saveInventory;
+    private int databaseSwitch = 0;
+    private int areaId = 0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,7 @@ public class SaveActivity extends AppCompatActivity {
         mrpApi = RetrofitClient.getInstance(SaveActivity.this).create(MRPApi.class);
         saveInventroyUtils = new SaveInventroyUtils();
         initCheckIntent();
+
     }
 
     private void initCheckIntent() {
@@ -138,6 +139,62 @@ public class SaveActivity extends AppCompatActivity {
         productQtyText.setText(saveInventory.getProduct_qty()+"");
         theoreticalQtyText.setText(saveInventory.getTheoretical_qty()+"");
         imageView.setImageBitmap(BitmapUtils.base64ToBitmap(saveInventory.getImage_medium()));
+    }
+
+
+    @OnClick(R.id.locationText)
+    void getLocation(View v){
+        Observable<GetAreaListResponse> areaList = mrpApi.getAreaList(new HashMap());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(SaveActivity.this);
+        builder.setTitle("选择位置");
+        builder.setIcon(android.R.drawable.ic_menu_more);
+        builder.setCancelable(true);
+        areaList.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Subscriber<GetAreaListResponse>() {
+                            @Override
+                            public void onCompleted() {
+                                MyLog.e(TAG,"onCompleted");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                MyLog.e(TAG, e.toString());
+                                MyLog.e(TAG,"onError");
+                            }
+                            @Override
+                            public void onNext(GetAreaListResponse getAreaListResponse) {
+                                MyLog.e(TAG,"onNext");
+                                final List<GetAreaListResponse.ResultBean.ResDataBean> areaList = getAreaListResponse.getResult().getRes_data();
+                                final List<String> strings = new ArrayList<String>();
+                                for (GetAreaListResponse.ResultBean.ResDataBean resDataBean : areaList){
+                                    String name = resDataBean.getName();
+                                    strings.add(name);
+                                }
+                                final String[] databaseArr = strings.toArray(new String[strings.size()]);
+                                builder.setSingleChoiceItems(databaseArr, databaseArr.length, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        databaseSwitch = i;
+                                        int id = areaList.get(databaseSwitch).getId();
+                                        areaId = id ;
+                                    }
+                                });
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SaveActivity.this.locationText.setText(strings.get(databaseSwitch));
+                                    }
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.setCanceledOnTouchOutside(true);
+                                dialog.show();
+                                MyLog.e(TAG,"dialogshow");
+                            }
+                        }
+                );
+
     }
 
     private void initIntentResult() {
@@ -168,9 +225,17 @@ public class SaveActivity extends AppCompatActivity {
                     partNOText.setText(product.getProduct_name());
                     productQtyText.setText(response.body().getResult().getRes_data().getProduct_qty()+"");
                     theoreticalQtyText.setText(response.body().getResult().getRes_data().getTheoretical_qty()+"");
+                    locationText.setText(response.body().getResult().getRes_data().getProduct().getArea().getName()+"");
+                    areaId = (int) response.body().getResult().getRes_data().getProduct().getArea().getId();
                     Glide.with(SaveActivity.this)
                             .load(response.body().getResult().getRes_data().getProduct().getImage_medium())
-                            .into(imageView);
+                            .asBitmap()
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    imageView.setImageBitmap(resource);
+                                }
+                            });
                 }
             }
 
@@ -349,7 +414,6 @@ public class SaveActivity extends AppCompatActivity {
                 }
                 break;
             }
-
             case CHOOSE_BIG_PICTURE2:// 图片选取完成时，其实该图片还有原处，如要裁剪则应把它复制出来一份（以免裁剪时覆盖原图)
             {
 
@@ -365,21 +429,7 @@ public class SaveActivity extends AppCompatActivity {
 
 
 
-    @OnClick(R.id.locationText)
-    void setLocation(View view){
-        Call<String> areaList = mrpApi.getAreaList(new HashMap());
-        areaList.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
 
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
 
 
     @Override
@@ -409,11 +459,11 @@ public class SaveActivity extends AppCompatActivity {
                         String bitmapString = BitmapUtils.bitmapToBase64(bitmapFromView);
                         if (product!=null){
                             saveInventroyUtils.insertSaveInventroy(new SaveInventory(res_data.getTheoretical_qty(),
-                                    productQty,bitmapString,product.getId(),product.getProduct_name(),""));
+                                    productQty,bitmapString,product.getId(),product.getProduct_name(),location.getText().toString(),areaId));
                         }
                         if (startBypostion){
                             saveInventroyUtils.insertSaveInventroy(new SaveInventory(saveInventory.getTheoretical_qty(),
-                                    productQty,bitmapString,saveInventory.getId(),saveInventory.getProduct_name(),""));
+                                    productQty,bitmapString,saveInventory.getId(),saveInventory.getProduct_name(),locationText.getText().toString(),areaId));
                         }
 
 

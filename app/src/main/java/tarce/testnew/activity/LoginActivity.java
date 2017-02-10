@@ -6,10 +6,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -30,8 +34,10 @@ import tarce.testnew.MyApplication;
 import tarce.testnew.R;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.SharePreferenceUtils;
-import tarce.testnew.greendaoBean.LoginResponseBean;
-import tarce.testnew.greendaoBean.MenuListBean;
+import tarce.testnew.greendao.GreendaoUtils.UserLoginUtils;
+import tarce.testnew.greendao.greendaoBeans.LoginResponseBean;
+import tarce.testnew.greendao.greendaoBeans.MenuListBean;
+import tarce.testnew.greendao.greendaoBeans.UserLogin;
 import tarce.testnew.http.MyCallback;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.LoginApi;
@@ -48,7 +54,7 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.database)
     Button database;
     @InjectView(R.id.email)
-    EditText email;
+    AutoCompleteTextView email;
     @InjectView(R.id.password)
     EditText password;
     @InjectView(R.id.to_login)
@@ -61,6 +67,7 @@ public class LoginActivity extends Activity {
     private DaoSession daoSession;
     private MenuListBeanDao menuListBeanDao;
     private ProgressDialog progressDialog;
+    private List<UserLogin> userLogins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +80,36 @@ public class LoginActivity extends Activity {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("loading");
         checkOutoLogin();
-
+        initEmailAdapter();
+        initListener();
     }
+
+    private void initListener() {
+        email.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String password = userLogins.get(i).getPassword();
+                LoginActivity.this.password.setText(password);
+            }
+        });
+    }
+
+    private void initEmailAdapter() {
+        email.setThreshold(1);
+        userLogins = new UserLoginUtils().searchAll();
+        ArrayList<String> strings = new ArrayList<>();
+        if (userLogins !=null&& userLogins.size()>0){
+            for (UserLogin s : userLogins){
+                strings.add(s.getUserName());
+            }
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(LoginActivity.this, R.layout.auto_text_listview, strings);
+        email.setAdapter(stringArrayAdapter);
+        }
+    }
+
+
+
+
 
     private void checkOutoLogin() {
         int user_id = SharePreferenceUtils.getInt("user_id", -1000, LoginActivity.this);
@@ -165,6 +200,7 @@ public class LoginActivity extends Activity {
                     SharePreferenceUtils.putString("url",url,LoginActivity.this);
                     SharePreferenceUtils.putString("password", passwordString, LoginActivity.this);
                     final String name = response.body().getResult().getRes_data().getName();
+                    new UserLoginUtils().insertUser(new UserLogin(emailString,passwordString));
                     List<LoginResponse.ResultBean.ResDataBean.GroupsBean> groups = response.body().getResult().getRes_data().getGroups();
                     Observable.from(groups)
                             .subscribe(new Action1<LoginResponse.ResultBean.ResDataBean.GroupsBean>() {

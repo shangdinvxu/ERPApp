@@ -67,9 +67,7 @@ public class StockInventoryActivity extends AppCompatActivity {
 
         mrpApi = RetrofitClient.getInstance(this).create(MRPApi.class);
         getStockInventoryList();
-        res_data = new ArrayList<GetStockInventoryResponse.ResultBean.ResDataBean>();
-
-
+        res_data = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(StockInventoryActivity.this);
         recycleView.setLayoutManager(layoutManager);
         recycleView.addItemDecoration(new DividerItemDecoration(StockInventoryActivity.this,
@@ -149,7 +147,7 @@ public class StockInventoryActivity extends AppCompatActivity {
     }
 
     private void getStockInventoryList() {
-        Call<GetStockInventoryResponse> stockInventoryList = mrpApi.getStockInventoryList(new GetStockInventoryRequestBean(80, 1));
+        Call<GetStockInventoryResponse> stockInventoryList = mrpApi.getStockInventoryList(new GetStockInventoryRequestBean(80, 0));
         stockInventoryList.enqueue(new Callback<GetStockInventoryResponse>() {
             @Override
             public void onResponse(Call<GetStockInventoryResponse> call, Response<GetStockInventoryResponse> response) {

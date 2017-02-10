@@ -10,8 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import tarce.testnew.R;
-import tarce.testnew.greendaoBean.SaveInventory;
-import tarce.testnew.http.bean.responseBean.FindProductByConditionResponse;
+import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 
 /**
  * Created by Daniel.Xu on 2017/1/23.

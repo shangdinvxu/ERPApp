@@ -1,4 +1,4 @@
-package tarce.testnew.greendaoBean;
+package tarce.testnew.greendao.greendaoBeans;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Index;
@@ -16,16 +16,18 @@ public class SaveInventory {
     private int id;
     @Index(unique = true)
     private String product_name;
-    private String area ;
-    @Generated(hash = 2134795141)
+    private String areaName ;
+    private int areaInt ;
+    @Generated(hash = 701716889)
     public SaveInventory(int theoretical_qty, int product_qty, String image_medium,
-            int id, String product_name, String area) {
+            int id, String product_name, String areaName, int areaInt) {
         this.theoretical_qty = theoretical_qty;
         this.product_qty = product_qty;
         this.image_medium = image_medium;
         this.id = id;
         this.product_name = product_name;
-        this.area = area;
+        this.areaName = areaName;
+        this.areaInt = areaInt;
     }
     @Generated(hash = 1949803626)
     public SaveInventory() {
@@ -60,10 +62,16 @@ public class SaveInventory {
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
     }
-    public String getArea() {
-        return this.area;
+    public String getAreaName() {
+        return this.areaName;
     }
-    public void setArea(String area) {
-        this.area = area;
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+    public int getAreaInt() {
+        return this.areaInt;
+    }
+    public void setAreaInt(int areaInt) {
+        this.areaInt = areaInt;
     }
 }

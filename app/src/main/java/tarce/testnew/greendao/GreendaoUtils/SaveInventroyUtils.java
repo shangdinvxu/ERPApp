@@ -1,14 +1,12 @@
-package tarce.testnew.greendaoBean.GreendaoUtils;
+package tarce.testnew.greendao.GreendaoUtils;
 
 import org.greenrobot.greendao.query.Query;
 
 import java.util.List;
 
-import greendao.MenuListBeanDao;
 import greendao.SaveInventoryDao;
 import tarce.testnew.GreenDaoManager;
-import tarce.testnew.greendaoBean.MenuListBean;
-import tarce.testnew.greendaoBean.SaveInventory;
+import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 
 /**
  * Created by Daniel.Xu on 2017/2/8.

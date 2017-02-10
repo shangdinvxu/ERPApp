@@ -1,11 +1,16 @@
 package tarce.testnew.http.bean.responseBean;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Since;
+
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.IllegalFormatCodePointException;
 
 /**
  * Created by Daniel.Xu on 2017/2/8.
  */
-
 public class FindProductByConditionResponse {
 
     /**
@@ -17,6 +22,7 @@ public class FindProductByConditionResponse {
     private String jsonrpc;
     private Object id;
     private ResultBean result;
+
 
     public String getJsonrpc() {
         return jsonrpc;
@@ -163,23 +169,31 @@ public class FindProductByConditionResponse {
                      * name : false
                      */
 
-                    private boolean id;
-                    private boolean name;
+                    private Object id;
+                    private Object name;
 
-                    public boolean isId() {
+                    public Object getId() {
+                        if (id instanceof Boolean){
+                            id = 0 ;
+                        }if (id instanceof Double){
+                            id = Integer.parseInt(new DecimalFormat("0").format(id));
+                        }
                         return id;
                     }
 
-                    public void setId(boolean id) {
+                    public void setId(int id) {
                         this.id = id;
                     }
 
-                    public boolean isName() {
+                    public Object getName() {
+                        if (name instanceof Boolean){
+                            name = "";
+                        }
                         return name;
                     }
 
-                    public void setName(boolean name) {
-                        this.name = name;
+                    public void setName(String name) {
+                            this.name = name;
                     }
                 }
             }

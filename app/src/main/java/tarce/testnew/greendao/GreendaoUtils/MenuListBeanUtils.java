@@ -1,6 +1,4 @@
-package tarce.testnew.greendaoBean.GreendaoUtils;
-
-import android.content.Context;
+package tarce.testnew.greendao.GreendaoUtils;
 
 import org.greenrobot.greendao.query.Query;
 
@@ -8,8 +6,7 @@ import java.util.List;
 
 import greendao.MenuListBeanDao;
 import tarce.testnew.GreenDaoManager;
-import tarce.testnew.MyApplication;
-import tarce.testnew.greendaoBean.MenuListBean;
+import tarce.testnew.greendao.greendaoBeans.MenuListBean;
 
 /**
  * Created by Daniel.Xu on 2017/2/8.

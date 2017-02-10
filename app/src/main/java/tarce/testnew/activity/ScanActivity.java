@@ -1,17 +1,12 @@
 package tarce.testnew.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,13 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,19 +29,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tarce.testnew.MainFragment.OnItemClickListener;
-import tarce.testnew.MainFragment.StockInventoryDetailRecycleViewAdapter;
 import tarce.testnew.MainFragment.LocalInventoryDetailRecycleViewAdapter;
 import tarce.testnew.R;
-import tarce.testnew.Utils.AvatarHelper;
 import tarce.testnew.Utils.MyLog;
-import tarce.testnew.Utils.SaveLocalUtils;
-import tarce.testnew.Utils.SelectPicPopupWindow;
-import tarce.testnew.greendaoBean.GreendaoUtils.SaveInventroyUtils;
-import tarce.testnew.greendaoBean.SaveInventory;
+import tarce.testnew.greendao.GreendaoUtils.SaveInventroyUtils;
+import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.MRPApi;
 import tarce.testnew.http.bean.responseBean.CreatInventoryResponse;
-import tarce.testnew.http.bean.responseBean.FindProductByConditionResponse;
 import tarce.testnew.http.bean.responseBean.GetStockInventoryDetailResponse;
 
 public class ScanActivity extends AppCompatActivity {
@@ -84,7 +72,9 @@ public class ScanActivity extends AppCompatActivity {
         initListener();
         saveInventroyUtils = new SaveInventroyUtils();
         searchLocal();
+
     }
+
 
     private void initRecycleview() {
         localInventoryDetailRecycleViewAdapter = new LocalInventoryDetailRecycleViewAdapter(ScanActivity.this);
@@ -158,8 +148,8 @@ public class ScanActivity extends AppCompatActivity {
                 productBean.setProduct_name(saveInventory.getProduct_name());
                 productBean.setId(saveInventory.getId());
                 GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean areaBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean();
-                areaBean.setArea_name(false);
-                areaBean.setId(false);
+                areaBean.setName(saveInventory.getAreaName());
+                areaBean.setId(saveInventory.getAreaInt());
                 productBean.setArea(areaBean);
                 lineIdsBean.setProduct(productBean);
                 lineIdsBeenlist.add(lineIdsBean);
@@ -176,9 +166,7 @@ public class ScanActivity extends AppCompatActivity {
                         finish();
                         Toast.makeText(ScanActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
                 @Override
                 public void onFailure(Call<CreatInventoryResponse> call, Throwable t) {
 

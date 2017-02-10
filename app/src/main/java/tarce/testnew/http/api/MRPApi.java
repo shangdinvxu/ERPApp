@@ -9,10 +9,12 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import rx.Observable;
 import tarce.testnew.http.bean.requestBean.GetMrpProductionRequestBean;
 import tarce.testnew.http.bean.requestBean.GetStockInventoryRequestBean;
 import tarce.testnew.http.bean.requestBean.findProductByConditionRequest;
 import tarce.testnew.http.bean.responseBean.CreatInventoryResponse;
+import tarce.testnew.http.bean.responseBean.GetAreaListResponse;
 import tarce.testnew.http.bean.responseBean.GetMrpProductionResponseBean;
 import tarce.testnew.http.bean.responseBean.GetStockInventoryDetailResponse;
 import tarce.testnew.http.bean.responseBean.GetStockInventoryResponse;
@@ -33,7 +35,7 @@ public interface MRPApi {
     Call<FindProductByConditionResponse> findProductByCondition(@Body findProductByConditionRequest findProductByConditionRequest);
 
     @POST("get_area_list")
-    Call<String> getAreaList(@Body HashMap map);
+    Observable<GetAreaListResponse> getAreaList(@Body HashMap map);
 
     @POST("get_stock_inventory_detail")
     Call<GetStockInventoryDetailResponse> getStockInventoryDetail(@Body HashMap map);

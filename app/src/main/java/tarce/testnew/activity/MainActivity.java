@@ -1,7 +1,6 @@
 package tarce.testnew.activity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,13 +11,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
@@ -29,8 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import greendao.DaoSession;
 import greendao.MenuListBeanDao;
-import retrofit2.Call;
-import retrofit2.Response;
 import tarce.testnew.GreenDaoManager;
 import tarce.testnew.IntentFactory;
 import tarce.testnew.MainFragment.Homefragment;
@@ -40,11 +35,8 @@ import tarce.testnew.MyApplication;
 import tarce.testnew.R;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.SharePreferenceUtils;
-import tarce.testnew.greendaoBean.GreendaoUtils.MenuListBeanUtils;
-import tarce.testnew.greendaoBean.MenuListBean;
-import tarce.testnew.http.MyCallback;
-import tarce.testnew.http.RetrofitClient;
-import tarce.testnew.http.api.LoginApi;
+import tarce.testnew.greendao.GreendaoUtils.MenuListBeanUtils;
+import tarce.testnew.greendao.greendaoBeans.MenuListBean;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationBar.OnTabSelectedListener {

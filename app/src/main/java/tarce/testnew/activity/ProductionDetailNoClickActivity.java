@@ -55,11 +55,13 @@ public class ProductionDetailNoClickActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getBundleExtra("bundle");
         String image_medium = bundle.getString("image_medium");
         String product_name = bundle.getString("product_name");
+        String area_name = bundle.getString("area_name");
         int product_qty = bundle.getInt("product_qty");
         int theoretical_qty = bundle.getInt("theoretical_qty");
         partNOText.setText(product_name);
         productQtyText.setText(product_qty+"");
         theoreticalQtyText.setText(theoretical_qty+"");
+        locationText.setText(area_name);
         GlideCacheUtil.getInstance().clearImageAllCache(ProductionDetailNoClickActivity.this);
         Glide.with(ProductionDetailNoClickActivity.this)
                 .load(image_medium)

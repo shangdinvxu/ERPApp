@@ -63,10 +63,12 @@ public class StockInventoryDetailActivity extends AppCompatActivity {
                 int theoretical_qty = line_ids.get(postion).getTheoretical_qty();
                 String image_medium = line_ids.get(postion).getProduct().getImage_medium();
                 String product_name = line_ids.get(postion).getProduct().getProduct_name();
+                String area_name = (String) line_ids.get(postion).getProduct().getArea().getName();
                 bundle.putInt("product_qty",product_qty);
                 bundle.putInt("theoretical_qty",theoretical_qty);
                 bundle.putString("image_medium",image_medium);
                 bundle.putString("product_name",product_name);
+                bundle.putString("area_name",area_name);
                 intent.putExtra("bundle",bundle);
                 startActivity(intent);
             }
@@ -96,6 +98,7 @@ public class StockInventoryDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetStockInventoryDetailResponse> call, Response<GetStockInventoryDetailResponse> response) {
                 line_ids = response.body().getResult().getRes_data().getLine_ids();
+                MyLog.e(TAG,"area"+line_ids.get(0).getProduct().getArea().getName()+"");
                 stockInventoryDetailRecycleViewAdapter.setItems(line_ids);
                 recycleView.setAdapter(stockInventoryDetailRecycleViewAdapter);
             }

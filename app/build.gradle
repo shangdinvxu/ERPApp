@@ -29,7 +29,7 @@ repositories {
 }
 
 greendao {
-    schemaVersion 3
+    schemaVersion 4
     daoPackage 'greendao'
     targetGenDir 'src/main/java'
 }

@@ -42,7 +42,7 @@ public class StockInventoryDetailRecycleViewAdapter extends RecyclerView.Adapter
         holder.mTheoretical_qty.setText(mItems.get(position).getTheoretical_qty()+"");
         holder.mProduct_qty.setText(mItems.get(position).getProduct_qty()+"");
         holder.mProduction.setText(mItems.get(position).getProduct().getProduct_name());
-        holder.mLocation.setText("");
+        holder.mLocation.setText(mItems.get(position).getProduct().getArea().getName()+"");
     }
 
     @Override
