@@ -1,11 +1,13 @@
 package tarce.testnew.greendao.GreendaoUtils;
 
 import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
 import greendao.SaveInventoryDao;
 import tarce.testnew.GreenDaoManager;
+import tarce.testnew.activity.SaveActivity;
 import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 
 /**
@@ -13,27 +15,33 @@ import tarce.testnew.greendao.greendaoBeans.SaveInventory;
  */
 
 public class SaveInventroyUtils {
-    private SaveInventoryDao saveInventoryDao ;
+    private SaveInventoryDao saveInventoryDao;
+
     public SaveInventroyUtils() {
         this.saveInventoryDao = GreenDaoManager.getInstance().getmDaoSession().getSaveInventoryDao();
     }
 
-    public void insertSaveInventroy(SaveInventory saveInventory){
+    public void insertSaveInventroy(SaveInventory saveInventory) {
         saveInventoryDao.insertOrReplace(saveInventory);
 
     }
 
-    public List<SaveInventory> getEntityByProductionName(String productionName){
+    public List<SaveInventory> getEntityByProductionName(String productionName) {
         Query<SaveInventory> build = saveInventoryDao.queryBuilder().where(SaveInventoryDao.Properties.Product_name.eq(productionName)).build();
         List<SaveInventory> list = build.list();
         return list;
     }
 
-  public void deleteDate(){
-      saveInventoryDao.deleteAll();
-  }
+    public void deleteAllDate() {
+        saveInventoryDao.deleteAll();
+    }
 
-    public List<SaveInventory> searchALL(){
+    public void deleteByName(String name){
+        Query<SaveInventory> build = saveInventoryDao.queryBuilder().where(SaveInventoryDao.Properties.Product_name.eq(name)).build();
+        saveInventoryDao.delete(build.list().get(0));
+    }
+
+    public List<SaveInventory> searchALL() {
         List<SaveInventory> saveInventories = saveInventoryDao.loadAll();
         return saveInventories;
     }

@@ -1,7 +1,9 @@
 package tarce.testnew.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +33,7 @@ import retrofit2.Response;
 import tarce.testnew.MainFragment.OnItemClickListener;
 import tarce.testnew.MainFragment.LocalInventoryDetailRecycleViewAdapter;
 import tarce.testnew.R;
+import tarce.testnew.Utils.AlertAialogUtils;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.greendao.GreendaoUtils.SaveInventroyUtils;
 import tarce.testnew.greendao.greendaoBeans.SaveInventory;
@@ -53,6 +56,8 @@ public class ScanActivity extends AppCompatActivity {
     LinearLayout contentScan;
     @InjectView(R.id.sheetName)
     EditText sheetName;
+    @InjectView(R.id.clear_inventory)
+    Button clearInventory ;
     private int REQUEST_CODE = 1;
     private MRPApi mrpApi;
     private LocalInventoryDetailRecycleViewAdapter localInventoryDetailRecycleViewAdapter;
@@ -123,57 +128,86 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onItemLongClick(View view, int postion) {
-
+            public void onItemLongClick(View view, final int postion) {
+                AlertDialog.Builder commonDialog = AlertAialogUtils.getCommonDialog(ScanActivity.this, "删除这条记录?");
+                commonDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String product_name = saveInventories.get(postion).getProduct_name();
+                        saveInventroyUtils.deleteByName(product_name);
+                        saveInventories = saveInventroyUtils.searchALL();
+                        localInventoryDetailRecycleViewAdapter.setItems(saveInventories);
+                        localInventoryDetailRecycleViewAdapter.notifyDataSetChanged();
+                    }
+                }).show();
             }
         });
 
     }
 
+    @OnClick(R.id.clear_inventory)
+    void setClearinventory(View view){
+        AlertDialog.Builder builder = AlertAialogUtils.getCommonDialog(ScanActivity.this, "是否要删除库存");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                saveInventroyUtils.deleteAllDate();
+                saveInventories.clear();
+                localInventoryDetailRecycleViewAdapter.setItems(saveInventories);
+                localInventoryDetailRecycleViewAdapter.notifyDataSetChanged();
+            }
+        }).show();
+    }
+
 
     @OnClick(R.id.submit_inventory)
     void setSubmitInventory(View view) {
-        if (sheetName.getText().toString().length()==0){
-            Toast.makeText(ScanActivity.this,"请填写表单名",Toast.LENGTH_SHORT).show();
-        }else {
-            GetStockInventoryDetailResponse.ResultBean.ResDataBean resDataBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean();
-            resDataBean.setName(sheetName.getText().toString());
-            ArrayList<GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean> lineIdsBeenlist= new ArrayList<>();
-            for (SaveInventory saveInventory: saveInventories){
-                GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean lineIdsBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean();
-                lineIdsBean.setProduct_qty(saveInventory.getProduct_qty());
-                lineIdsBean.setTheoretical_qty(saveInventory.getTheoretical_qty());
-                GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean productBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean();
-                productBean.setImage_medium(saveInventory.getImage_medium());
-                productBean.setProduct_name(saveInventory.getProduct_name());
-                productBean.setId(saveInventory.getId());
-                GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean areaBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean();
-                areaBean.setName(saveInventory.getAreaName());
-                areaBean.setId(saveInventory.getAreaInt());
-                productBean.setArea(areaBean);
-                lineIdsBean.setProduct(productBean);
-                lineIdsBeenlist.add(lineIdsBean);
-            }
-            resDataBean.setLine_ids(lineIdsBeenlist);
-            Call<CreatInventoryResponse> stringCall = mrpApi.creatStockInventory(resDataBean);
-            stringCall.enqueue(new Callback<CreatInventoryResponse>() {
-                @Override
-                public void onResponse(Call<CreatInventoryResponse> call, Response<CreatInventoryResponse> response) {
-                    MyLog.e("response","onresponse");
-                    int res_code = response.body().getResult().getRes_code();
-                    if (res_code==1){
-                        saveInventroyUtils.deleteDate();
-                        finish();
-                        Toast.makeText(ScanActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = AlertAialogUtils.getCommonDialog(ScanActivity.this, "是否要提交库存");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (sheetName.getText().toString().length()==0){
+                    Toast.makeText(ScanActivity.this,"请填写表单名",Toast.LENGTH_SHORT).show();
+                }else {
+                    GetStockInventoryDetailResponse.ResultBean.ResDataBean resDataBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean();
+                    resDataBean.setName(sheetName.getText().toString());
+                    ArrayList<GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean> lineIdsBeenlist= new ArrayList<>();
+                    for (SaveInventory saveInventory: saveInventories){
+                        GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean lineIdsBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean();
+                        lineIdsBean.setProduct_qty(saveInventory.getProduct_qty());
+                        lineIdsBean.setTheoretical_qty(saveInventory.getTheoretical_qty());
+                        GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean productBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean();
+                        productBean.setImage_medium(saveInventory.getImage_medium());
+                        productBean.setProduct_name(saveInventory.getProduct_name());
+                        productBean.setId(saveInventory.getId());
+                        GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean areaBean = new GetStockInventoryDetailResponse.ResultBean.ResDataBean.LineIdsBean.ProductBean.AreaBean();
+                        areaBean.setName(saveInventory.getAreaName());
+                        areaBean.setId(saveInventory.getAreaInt());
+                        productBean.setArea(areaBean);
+                        lineIdsBean.setProduct(productBean);
+                        lineIdsBeenlist.add(lineIdsBean);
                     }
-                }
-                @Override
-                public void onFailure(Call<CreatInventoryResponse> call, Throwable t) {
+                    resDataBean.setLine_ids(lineIdsBeenlist);
+                    Call<CreatInventoryResponse> stringCall = mrpApi.creatStockInventory(resDataBean);
+                    stringCall.enqueue(new Callback<CreatInventoryResponse>() {
+                        @Override
+                        public void onResponse(Call<CreatInventoryResponse> call, Response<CreatInventoryResponse> response) {
+                            MyLog.e("response","onresponse");
+                            int res_code = response.body().getResult().getRes_code();
+                            if (res_code==1){
+                                saveInventroyUtils.deleteAllDate();
+                                finish();
+                                Toast.makeText(ScanActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<CreatInventoryResponse> call, Throwable t) {
 
+                        }
+                    });
                 }
-            });
-        }
-
+            }
+        }).show();
     }
 
 

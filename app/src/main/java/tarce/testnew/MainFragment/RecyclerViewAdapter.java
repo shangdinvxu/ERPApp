@@ -67,8 +67,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 imageViewHolder.mTitle.setText(mData.get(position));  
                 break;  
             case TYPE_GROUP:  
-                GroupViewHolder groupViewHolder = ( GroupViewHolder ) holder;  
-                groupViewHolder.mTitle.setText ( mData.get(position));  
+                GroupViewHolder groupViewHolder = ( GroupViewHolder ) holder;
+                groupViewHolder.mTitle.setText ( mData.get(position));
                 break;  
         }  
     }  

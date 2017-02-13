@@ -97,10 +97,12 @@ public class StockInventoryDetailActivity extends AppCompatActivity {
         stockInventoryDetail.enqueue(new Callback<GetStockInventoryDetailResponse>() {
             @Override
             public void onResponse(Call<GetStockInventoryDetailResponse> call, Response<GetStockInventoryDetailResponse> response) {
-                line_ids = response.body().getResult().getRes_data().getLine_ids();
-                MyLog.e(TAG,"area"+line_ids.get(0).getProduct().getArea().getName()+"");
-                stockInventoryDetailRecycleViewAdapter.setItems(line_ids);
-                recycleView.setAdapter(stockInventoryDetailRecycleViewAdapter);
+                if (response.body().getResult() != null) {
+                    line_ids = response.body().getResult().getRes_data().getLine_ids();
+                    MyLog.e(TAG, "area" + line_ids.get(0).getProduct().getArea().getName() + "");
+                    stockInventoryDetailRecycleViewAdapter.setItems(line_ids);
+                    recycleView.setAdapter(stockInventoryDetailRecycleViewAdapter);
+                }
             }
 
             @Override

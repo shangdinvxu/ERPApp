@@ -83,6 +83,7 @@
             android:gravity="end|bottom"
             android:inputType="number"
             android:id="@+id/product_qtyText"
+            android:paddingEnd="20dp"
             android:text=""
             />
     </LinearLayout>

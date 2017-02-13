@@ -211,6 +211,11 @@ public class LoginActivity extends Activity {
                                 }
                             });
                     getMenuList();
+                }else {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                 }
             }
 

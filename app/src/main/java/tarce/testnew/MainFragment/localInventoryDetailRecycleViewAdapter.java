@@ -37,6 +37,15 @@ public class LocalInventoryDetailRecycleViewAdapter extends RecyclerView.Adapter
                     itemClickListener.onItemClick(v, position);
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (itemClickListener!=null)
+                    itemClickListener.onItemLongClick(view,position);
+                return true;
+            }
+        });
+
         holder.mNumber.setText((position+1)+"");
         holder.mTheoretical_qty.setText(mItems.get(position).getTheoretical_qty()+"");
         holder.mProduct_qty.setText(mItems.get(position).getProduct_qty()+"");

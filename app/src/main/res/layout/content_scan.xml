@@ -47,15 +47,28 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="210dp">
 
     </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:text="提交库存"
-        android:id="@+id/submit_inventory"
-
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:paddingLeft="10dp"
+
+        android:layout_height="50dp">
+        <Button
+            android:text="清除"
+            android:id="@+id/clear_inventory"
+            android:layout_width="100dp"
+            android:layout_height="50dp" />
+        <Button
+            android:layout_marginLeft="20dp"
+            android:text="提交库存"
+            android:id="@+id/submit_inventory"
+            android:layout_width="200dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
 
 </LinearLayout>
