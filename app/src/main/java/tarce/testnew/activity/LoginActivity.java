@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,9 +20,12 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.hugeterry.updatefun.UpdateFunGO;
+import cn.hugeterry.updatefun.config.UpdateKey;
 import greendao.DaoSession;
 import greendao.MenuListBeanDao;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -82,7 +86,10 @@ public class LoginActivity extends Activity {
         checkOutoLogin();
         initEmailAdapter();
         initListener();
+
     }
+
+
 
     private void initListener() {
         email.setOnItemClickListener(new AdapterView.OnItemClickListener() {

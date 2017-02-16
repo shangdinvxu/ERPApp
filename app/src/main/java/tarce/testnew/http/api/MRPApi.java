@@ -1,5 +1,6 @@
 package tarce.testnew.http.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,4 +43,7 @@ public interface MRPApi {
 
     @POST("create_stock_inventory")
     Call<CreatInventoryResponse> creatStockInventory(@Body GetStockInventoryDetailResponse.ResultBean.ResDataBean resDataBean);
+
+
+
 }

@@ -1,11 +1,8 @@
 package tarce.testnew.MainFragment;
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +24,7 @@ import tarce.testnew.R;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.LoaderMoreView;
 import tarce.testnew.ViewUtil.RefreshHeaderView;
-import tarce.testnew.http.RetrofitClient;
+import tarce.testnew.activity.makeOrder.MrpRecycleViewAdapter;
 import tarce.testnew.http.api.MRPApi;
 import tarce.testnew.http.bean.requestBean.GetMrpProductionRequestBean;
 import tarce.testnew.http.bean.responseBean.GetMrpProductionResponseBean;
@@ -37,6 +34,7 @@ import tarce.testnew.http.bean.responseBean.GetMrpProductionResponseBean;
  */
 
 public class SecondFragment extends Fragment {
+    private String TAG = this.getClass().getSimpleName();
     @InjectView(R.id.swipe_refresh_header)
     RefreshHeaderView swipeRefreshHeader;
     @InjectView(R.id.swipe_target)
@@ -48,14 +46,14 @@ public class SecondFragment extends Fragment {
     private ArrayList<String> strings;
     private MrpRecycleViewAdapter mrpRecycleViewAdapter;
     private MRPApi mrpApi;
-    private int index = 1 ;
+    private int index = 0 ;
     List<GetMrpProductionResponseBean.ResultBean.ResDataBean> res_data ;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.second_fragment, null);
-        ButterKnife.inject(this, view);
+      /*  ButterKnife.inject(this, view);
         mrpApi = RetrofitClient.getInstance(getActivity()).create(MRPApi.class);
         getMrpProduction();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -63,16 +61,18 @@ public class SecondFragment extends Fragment {
         recycleView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
         mrpRecycleViewAdapter = new MrpRecycleViewAdapter(getActivity());
-        initListener();
+        initListener();*/
         return view;
     }
+
+
+
     public void getMrpProduction(){
-        Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, index, "confirmed"));
+        Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, 0, "confirmed"));
         confirmed.enqueue(new Callback<GetMrpProductionResponseBean>() {
             @Override
             public void onResponse(Call<GetMrpProductionResponseBean> call, Response<GetMrpProductionResponseBean> response) {
                 List<GetMrpProductionResponseBean.ResultBean.ResDataBean> res_data = response.body().getResult().getRes_data();
-
                 mrpRecycleViewAdapter.setItems(res_data);
                 recycleView.setAdapter(mrpRecycleViewAdapter);
             }
@@ -86,8 +86,8 @@ public class SecondFragment extends Fragment {
         swipeToLoadLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                index = 1 ;
-                Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, index, "confirmed"));
+                index = 0;
+                Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, 0, "confirmed"));
                 confirmed.enqueue(new Callback<GetMrpProductionResponseBean>() {
                     @Override
                     public void onResponse(Call<GetMrpProductionResponseBean> call, Response<GetMrpProductionResponseBean> response) {
@@ -106,7 +106,8 @@ public class SecondFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 index++;
-                Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, index, "confirmed"));
+                MyLog.e(TAG,"index是"+index);
+                Call<GetMrpProductionResponseBean> confirmed = mrpApi.getMrpProduction(new GetMrpProductionRequestBean(2, index*2, "confirmed"));
                 confirmed.enqueue(new Callback<GetMrpProductionResponseBean>() {
                     @Override
                     public void onResponse(Call<GetMrpProductionResponseBean> call, Response<GetMrpProductionResponseBean> response) {

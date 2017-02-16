@@ -14,8 +14,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import tarce.testnew.IntentFactory;
-import tarce.testnew.MainFragment.OnItemClickListener;
-import tarce.testnew.MainFragment.RecyclerViewAdapter;
 import tarce.testnew.MyApplication;
 import tarce.testnew.R;
 import tarce.testnew.greendao.GreendaoUtils.MenuListBeanUtils;
@@ -36,6 +34,7 @@ public class SecondaryMenuActivity extends AppCompatActivity {
     private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<String> strings;
     private MRPApi mrpApi;
+    private List<MenuListBean> menuById;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +45,32 @@ public class SecondaryMenuActivity extends AppCompatActivity {
 
         menuListBeanUtils = new MenuListBeanUtils();
         id = getIntent().getLongExtra("id", 0);
-        List<MenuListBean> menuById = menuListBeanUtils.getMenuById(MyApplication.userID, (int) id);
+        menuById = menuListBeanUtils.getMenuById(MyApplication.userID, (int) id);
         toolbar.setTitle(menuById.get(0).getName());
         setSupportActionBar(toolbar);
         mrpApi = RetrofitClient.getInstance(this).create(MRPApi.class);
         initView();
         initListener();
-
     }
 
     private void initListener() {
     recyclerViewAdapter.setItemClickListener(new OnItemClickListener() {
         @Override
         public void onItemClick(View view, int postion) {
-
             if (strings.get(postion).equals("库存调整")){
                 IntentFactory.start_StockInventoryActivity(SecondaryMenuActivity.this);
+                /**先找到title指针再判断*/
+            }else if (strings.get(postion).equals("产品")&&strings.get(recyclerViewAdapter.getTitle(postion)).equals("标题:库存管理")){
+                IntentFactory.start_ProductActivity(SecondaryMenuActivity.this,"all");
+            }else if (strings.get(postion).equals("产品")&&strings.get(recyclerViewAdapter.getTitle(postion)).equals("标题:销售")){
+                IntentFactory.start_ProductActivity(SecondaryMenuActivity.this,"sale");
+            }else if (strings.get(postion).equals("产品")&&strings.get(recyclerViewAdapter.getTitle(postion)).equals("标题:采购")){
+                IntentFactory.start_ProductActivity(SecondaryMenuActivity.this,"purchase");
+            }else if (strings.get(postion).equals("费用产品")&&strings.get(recyclerViewAdapter.getTitle(postion)).equals("标题:配置")){
+                IntentFactory.start_ProductActivity(SecondaryMenuActivity.this,"expensed");
+            }else if (strings.get(postion).equals("制造订单")){
+                IntentFactory.start_makeOrderActivity(SecondaryMenuActivity.this);
             }
-
         }
 
         @Override
@@ -81,7 +88,7 @@ public class SecondaryMenuActivity extends AppCompatActivity {
         strings = new ArrayList<>();
         List<MenuListBean> menuByParentId = menuListBeanUtils.getMenuByParentId(MyApplication.userID, (int) id);
         for (int i = 0 ; i<menuByParentId.size();i++){
-            strings.add("this is title:"+menuByParentId.get(i).getName());
+            strings.add("标题:"+menuByParentId.get(i).getName());
             long secondId = menuByParentId.get(i).getId();
             List<MenuListBean> menuByParentIdSecond = menuListBeanUtils.getMenuByParentId(MyApplication.userID, (int) secondId);
             if (menuByParentIdSecond.size()>0){
@@ -93,11 +100,6 @@ public class SecondaryMenuActivity extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(this, strings);
         recycleView.setAdapter(recyclerViewAdapter);
     }
-
-
-
-
-
 
 }
 

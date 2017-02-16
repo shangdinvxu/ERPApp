@@ -33,7 +33,7 @@ public class OKHttpFactory {
 //        //缓存目录
 //        Cache cache = new Cache(MyApplication.mContext.getCacheDir(), 10 * 1024 * 1024);
 
-        okHttpClient = new OkHttpClient.Builder()
+                okHttpClient = new OkHttpClient.Builder()
                 //打印请求log
                 .addInterceptor(interceptor)
 
@@ -51,7 +51,7 @@ public class OKHttpFactory {
 //                .addNetworkInterceptor(new OnOffLineCachedInterceptor())
 
                 //失败重连
-                .retryOnConnectionFailure(true)
+//                .retryOnConnectionFailure(true)
                 //time out
                 .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
                 .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)

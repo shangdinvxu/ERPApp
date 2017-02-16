@@ -39,18 +39,27 @@
             android:name=".activity.SecondaryMenuActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.StockInventoryActivity"
+            android:name=".activity.Invenytory.StockInventoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ScanActivity"
+            android:name=".activity.Invenytory.ScanActivity"
             android:label="@string/title_activity_scan"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".activity.product.ProductActivity"
+           />
+
+        <activity android:name=".activity.product.ProductSearchActivity"/>
+        <activity android:name=".activity.product.ProductDetailActivity"/>
+        <activity android:name=".activity.product.MoveInventoryActivity"/>
+        <activity android:name=".activity.product.MoveInventoryDetailActivity"/>
+        <activity android:name=".activity.makeOrder.MakeOrderActivity"/>
         <activity
-            android:name=".activity.SaveActivity"
+            android:name=".activity.Invenytory.SaveActivity"
             android:label="@string/title_activity_save"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.StockInventoryDetailActivity"
+            android:name=".activity.Invenytory.StockInventoryDetailActivity"
             android:label="@string/title_activity_stock_inventory_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

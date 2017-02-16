@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar_layout"/>
+    <LinearLayout
+        android:background="@color/cc"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:text="说明"
+            />
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="数量"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="来源位置"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="目的位置"/>
+    </LinearLayout>
+
+   <include layout="@layout/pulltorefresh_recyclerview"/>
+
+</LinearLayout>

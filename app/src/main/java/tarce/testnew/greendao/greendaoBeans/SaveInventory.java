@@ -1,6 +1,7 @@
 package tarce.testnew.greendao.greendaoBeans;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -9,7 +10,8 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class SaveInventory {
-
+    @Id(autoincrement = true)
+    private Long primaryId ;
     private int theoretical_qty;
     private int product_qty;
     private String image_medium;
@@ -18,9 +20,11 @@ public class SaveInventory {
     private String product_name;
     private String areaName ;
     private int areaInt ;
-    @Generated(hash = 701716889)
-    public SaveInventory(int theoretical_qty, int product_qty, String image_medium,
-            int id, String product_name, String areaName, int areaInt) {
+    @Generated(hash = 2043298389)
+    public SaveInventory(Long primaryId, int theoretical_qty, int product_qty,
+            String image_medium, int id, String product_name, String areaName,
+            int areaInt) {
+        this.primaryId = primaryId;
         this.theoretical_qty = theoretical_qty;
         this.product_qty = product_qty;
         this.image_medium = image_medium;
@@ -32,6 +36,7 @@ public class SaveInventory {
     @Generated(hash = 1949803626)
     public SaveInventory() {
     }
+
     public int getTheoretical_qty() {
         return this.theoretical_qty;
     }
@@ -74,4 +79,11 @@ public class SaveInventory {
     public void setAreaInt(int areaInt) {
         this.areaInt = areaInt;
     }
+    public Long getPrimaryId() {
+        return this.primaryId;
+    }
+    public void setPrimaryId(Long primaryId) {
+        this.primaryId = primaryId;
+    }
+
 }

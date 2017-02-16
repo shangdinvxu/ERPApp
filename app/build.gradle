@@ -9,11 +9,27 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    /**
+     * 签名设置
+     */
+    signingConfigs {
         release {
+            storeFile file('../efeelink.keystore')
+            keyAlias "efeelink_cer"
+            keyPassword "efeelink@sz"
+            storePassword "efeelink@sz"
+        }
+    }
+    buildTypes {
+        debug{
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,7 +45,7 @@ repositories {
 }
 
 greendao {
-    schemaVersion 4
+    schemaVersion 7
     daoPackage 'greendao'
     targetGenDir 'src/main/java'
 }
@@ -62,4 +78,5 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'cn.yipianfengye.android:zxing-library:2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'cn.hugeterry.updatefun:updatefun:1.6.0'
 }

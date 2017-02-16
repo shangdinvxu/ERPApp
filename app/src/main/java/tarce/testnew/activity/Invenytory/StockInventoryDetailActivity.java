@@ -1,4 +1,4 @@
-package tarce.testnew.activity;
+package tarce.testnew.activity.Invenytory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import butterknife.InjectView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tarce.testnew.MainFragment.OnItemClickListener;
-import tarce.testnew.MainFragment.StockInventoryDetailRecycleViewAdapter;
+import tarce.testnew.activity.OnItemClickListener;
 import tarce.testnew.R;
 import tarce.testnew.Utils.MyLog;
+import tarce.testnew.activity.ProductionDetailNoClickActivity;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.MRPApi;
 import tarce.testnew.http.bean.responseBean.GetStockInventoryDetailResponse;

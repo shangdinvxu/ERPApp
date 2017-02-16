@@ -1,4 +1,4 @@
-package tarce.testnew.activity;
+package tarce.testnew.activity.Invenytory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -26,10 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tarce.testnew.IntentFactory;
-import tarce.testnew.MainFragment.OnItemClickListener;
-import tarce.testnew.MainFragment.StockInventoryRecycleViewAdapter;
+import tarce.testnew.activity.OnItemClickListener;
 import tarce.testnew.R;
-import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.LoaderMoreView;
 import tarce.testnew.ViewUtil.RefreshHeaderView;
 import tarce.testnew.http.RetrofitClient;

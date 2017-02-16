@@ -1,5 +1,7 @@
 package tarce.testnew.http.api;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -25,4 +27,10 @@ public interface LoginApi {
 
     @GET("get_menu_list")
     Call<GetMenuListResponse> getMenuList();
+
+/*    @Headers({
+            "Content-Type: application/json; charset=UTF-8",
+    })*/
+
+
 }

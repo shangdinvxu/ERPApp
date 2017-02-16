@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tarce.testnew.activity.StockInventoryActivity"
+    tools:context="tarce.testnew.activity.Invenytory.StockInventoryActivity"
     tools:showIn="@layout/activity_stock_inventory">
 
     <include layout="@layout/second_fragment" />

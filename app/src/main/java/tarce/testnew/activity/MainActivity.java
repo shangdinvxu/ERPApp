@@ -1,5 +1,6 @@
 package tarce.testnew.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -24,6 +26,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.hugeterry.updatefun.UpdateFunGO;
+import cn.hugeterry.updatefun.config.UpdateKey;
 import greendao.DaoSession;
 import greendao.MenuListBeanDao;
 import tarce.testnew.GreenDaoManager;
@@ -33,6 +37,7 @@ import tarce.testnew.MainFragment.SecondFragment;
 import tarce.testnew.MainFragment.ThreeFragment;
 import tarce.testnew.MyApplication;
 import tarce.testnew.R;
+import tarce.testnew.Utils.AlertAialogUtils;
 import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.SharePreferenceUtils;
 import tarce.testnew.greendao.GreendaoUtils.MenuListBeanUtils;
@@ -79,14 +84,41 @@ public class MainActivity extends AppCompatActivity
         headerView = navigationView.getHeaderView(0);
         initMenuList();
         initListener();
+        checkFirUpdate();
+    }
+
+    private void checkFirUpdate() {
+        UpdateKey.API_TOKEN = "f2a3d1973878abb5ba921a0176a5c1fb";
+        UpdateKey.APP_ID = "589c54dc959d69172400040d";
+        UpdateFunGO.init(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UpdateFunGO.onResume(this);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        UpdateFunGO.onStop(this);
     }
 
     private void initListener() {
+        /**点击头像处退出,userid 置为-1000*/
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharePreferenceUtils.putInt("user_id", -1000, MainActivity.this);
-                IntentFactory.start_LoginActivity(MainActivity.this);
+                AlertDialog.Builder commonDialog = AlertAialogUtils.getCommonDialog(MainActivity.this, "退出");
+                commonDialog
+                        .setMessage("确定要退出?")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharePreferenceUtils.putInt("user_id", -1000, MainActivity.this);
+                        IntentFactory.start_LoginActivity(MainActivity.this);
+                    }
+                }).show();
             }
         });
     }

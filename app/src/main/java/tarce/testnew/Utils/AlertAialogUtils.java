@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
-import tarce.testnew.activity.SaveActivity;
-
 /**
  * Created by Daniel.Xu on 2017/2/13.
  */

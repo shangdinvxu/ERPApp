@@ -8,29 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import tarce.testnew.R;
-import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.LoaderMoreView;
 import tarce.testnew.ViewUtil.RefreshHeaderView;
-import tarce.testnew.http.RetrofitClient;
-import tarce.testnew.http.api.MRPApi;
-import tarce.testnew.http.bean.requestBean.GetMrpProductionRequestBean;
+import tarce.testnew.activity.RecyclerViewAdapter;
 
 /**
  * Created by Daniel.Xu on 2017/1/5.
@@ -63,7 +53,7 @@ public class Homefragment extends Fragment {
 
     @Override
     public void onStart() {
-        strings = new ArrayList<>();
+       /* strings = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             strings.add(i + "recycleview");
         }
@@ -74,7 +64,7 @@ public class Homefragment extends Fragment {
         strings.add(9,"this is title: 5");
         myRecyclerAdapter = new RecyclerViewAdapter(getActivity(), strings);
         swipeTarget.setAdapter(myRecyclerAdapter);
-        initListener();
+        initListener();*/
         super.onStart();
 
     }

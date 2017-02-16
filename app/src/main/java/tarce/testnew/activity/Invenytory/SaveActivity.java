@@ -1,4 +1,4 @@
-package tarce.testnew.activity;
+package tarce.testnew.activity.Invenytory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -458,21 +458,17 @@ public class SaveActivity extends AppCompatActivity {
                         Bitmap bitmapFromView = BitmapUtils.getBitmapFromView(imageView);
                         String bitmapString = BitmapUtils.bitmapToBase64(bitmapFromView);
                         if (product!=null){
-                            saveInventroyUtils.insertSaveInventroy(new SaveInventory(res_data.getTheoretical_qty(),
+                            saveInventroyUtils.insertSaveInventroy(new SaveInventory(null,res_data.getTheoretical_qty(),
                                     productQty,bitmapString,product.getId(),product.getProduct_name(),location.getText().toString(),areaId));
                         }
                         if (startBypostion){
-                            saveInventroyUtils.insertSaveInventroy(new SaveInventory(saveInventory.getTheoretical_qty(),
+                            saveInventroyUtils.insertSaveInventroy(new SaveInventory(null,saveInventory.getTheoretical_qty(),
                                     productQty,bitmapString,saveInventory.getId(),saveInventory.getProduct_name(),locationText.getText().toString(),areaId));
                         }
-
-
                         finish();
                     }
                 }).show();
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }

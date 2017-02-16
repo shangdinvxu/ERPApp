@@ -21,7 +21,7 @@ public class MenuListBeanUtils {
     public List<MenuListBean> getMenuByParentId(int userId, int parentId){
         Query<MenuListBean> build = menuListBeanDao.queryBuilder()
                 .where(MenuListBeanDao.Properties.User_id.eq(userId), MenuListBeanDao.Properties.Parent_id.eq(parentId))
-                .orderAsc(MenuListBeanDao.Properties.Id)
+                .orderAsc(MenuListBeanDao.Properties.Sequence)
                 .build();
         List<MenuListBean> list = build.list();
         return list ;

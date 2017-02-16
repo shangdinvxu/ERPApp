@@ -1,4 +1,4 @@
-package tarce.testnew.activity;
+package tarce.testnew.activity.Invenytory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,8 +30,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tarce.testnew.MainFragment.OnItemClickListener;
-import tarce.testnew.MainFragment.LocalInventoryDetailRecycleViewAdapter;
+import tarce.testnew.activity.OnItemClickListener;
 import tarce.testnew.R;
 import tarce.testnew.Utils.AlertAialogUtils;
 import tarce.testnew.Utils.MyLog;

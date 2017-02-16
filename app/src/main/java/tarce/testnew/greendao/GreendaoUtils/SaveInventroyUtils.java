@@ -1,13 +1,11 @@
 package tarce.testnew.greendao.GreendaoUtils;
 
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
 import greendao.SaveInventoryDao;
 import tarce.testnew.GreenDaoManager;
-import tarce.testnew.activity.SaveActivity;
 import tarce.testnew.greendao.greendaoBeans.SaveInventory;
 
 /**
