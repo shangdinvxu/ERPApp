@@ -1,10 +1,12 @@
 package tarce.testnew.activity.makeOrder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
@@ -23,6 +25,7 @@ import tarce.testnew.Utils.MyLog;
 import tarce.testnew.ViewUtil.LoaderMoreView;
 import tarce.testnew.ViewUtil.RefreshHeaderView;
 import tarce.testnew.activity.BaseAppCompatActivity;
+import tarce.testnew.activity.OnItemClickListener;
 import tarce.testnew.http.RetrofitClient;
 import tarce.testnew.http.api.MakeOrderApi;
 import tarce.testnew.http.bean.requestBean.GetMrpProductionRequestBean;
@@ -99,9 +102,11 @@ public class MakeOrderActivity extends BaseAppCompatActivity {
                 confirmed.enqueue(new Callback<GetMrpProductionResponseBean>() {
                     @Override
                     public void onResponse(Call<GetMrpProductionResponseBean> call, Response<GetMrpProductionResponseBean> response) {
-                        mrpRecycleViewAdapter.setItems(response.body().getResult().getRes_data());
-                        mrpRecycleViewAdapter.notifyDataSetChanged();
-                        swipeToLoadLayout.setRefreshing(false);
+                        if (response.body().getResult()!=null) {
+                            mrpRecycleViewAdapter.setItems(response.body().getResult().getRes_data());
+                            mrpRecycleViewAdapter.notifyDataSetChanged();
+                            swipeToLoadLayout.setRefreshing(false);
+                        }
                     }
                     @Override
                     public void onFailure(Call<GetMrpProductionResponseBean> call, Throwable t) {
@@ -133,12 +138,20 @@ public class MakeOrderActivity extends BaseAppCompatActivity {
 
             }
         });
+        mrpRecycleViewAdapter.setOnclickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                Intent intent = new Intent(MakeOrderActivity.this, MakeOrderDetailActivity.class);
+                List<GetMrpProductionResponseBean.ResultBean.ResDataBean> items = mrpRecycleViewAdapter.getItems();
+                intent.putExtra("order_id",items.get(postion).getOrder_id());
+                startActivity(intent);
+            }
 
+            @Override
+            public void onItemLongClick(View view, int postion) {
 
-
-
+            }
+        });
     }
-
-
 
 }

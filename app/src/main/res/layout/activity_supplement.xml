@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="130dp"
+            android:text="产品"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="40dp"
+            android:text="在手数量"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:text="预测数量"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:text="待消耗"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:text="备料数量"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:text="超领数量"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recycleView"
+        android:layout_height="280dp"></android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/submit"
+        android:text="提交补领料"
+        android:layout_height="40dp" />
+</LinearLayout>

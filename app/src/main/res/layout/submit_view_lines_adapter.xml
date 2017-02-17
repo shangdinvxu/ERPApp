@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="40dp">
+        <TextView
+            android:textSize="12sp"
+            android:layout_width="130dp"
+            android:text="产品"
+            android:id="@+id/product"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="40dp"
+            android:text="建议数量"
+            android:id="@+id/suggest_qty"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:id="@+id/quantity_available"
+            android:text="可用数量"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:id="@+id/product_uom_qty"
+            android:text="待消耗"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:id="@+id/PreparationNumber"
+            android:text="备料数量"
+            android:layout_height="match_parent" />
+</LinearLayout>

@@ -3,11 +3,13 @@ package tarce.testnew;
 import android.content.Context;
 import android.content.Intent;
 
+import tarce.testnew.activity.Invenytory.TransferActivity;
 import tarce.testnew.activity.LoginActivity;
 import tarce.testnew.activity.MainActivity;
 import tarce.testnew.activity.Invenytory.ScanActivity;
 import tarce.testnew.activity.Invenytory.StockInventoryActivity;
 import tarce.testnew.activity.makeOrder.MakeOrderActivity;
+import tarce.testnew.activity.makeOrder.SubmitActivity;
 import tarce.testnew.activity.product.ProductActivity;
 import tarce.testnew.activity.product.ProductSearchActivity;
 
@@ -53,6 +55,20 @@ public class IntentFactory {
         Intent intent = new Intent(context, MakeOrderActivity.class);
         context.startActivity(intent);
     }
+
+    /**制造订单*/
+    public static void start_submitActivity(Context context){
+        Intent intent = new Intent(context, SubmitActivity.class);
+        context.startActivity(intent);
+    }
+
+
+    /**制造订单*/
+    public static void start_transfersActivity(Context context){
+        Intent intent = new Intent(context, TransferActivity.class);
+        context.startActivity(intent);
+    }
+
 
 
 

@@ -1,5 +1,6 @@
 package tarce.testnew.http.bean.responseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -77,7 +78,7 @@ public class GetMrpProductionResponseBean {
             this.res_data = res_data;
         }
 
-        public static class ResDataBean {
+        public static class ResDataBean implements Serializable {
             /**
              * origin : false
              * user_id : Guo Hong

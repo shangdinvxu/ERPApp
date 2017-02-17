@@ -54,6 +54,10 @@
         <activity android:name=".activity.product.MoveInventoryActivity"/>
         <activity android:name=".activity.product.MoveInventoryDetailActivity"/>
         <activity android:name=".activity.makeOrder.MakeOrderActivity"/>
+        <activity android:name=".activity.makeOrder.MakeOrderDetailActivity"/>
+        <activity android:name=".activity.makeOrder.SubmitActivity"/>
+        <activity android:name=".activity.makeOrder.SupplementActivity"/>
+        <activity android:name=".activity.Invenytory.TransferActivity"/>
         <activity
             android:name=".activity.Invenytory.SaveActivity"
             android:label="@string/title_activity_save"

@@ -200,6 +200,8 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.body()==null)
+                    return;
                 if (response.body().getResult().getRes_code() == 1) {
                     final int user_id = response.body().getResult().getRes_data().getUser_id();
                     SharePreferenceUtils.putInt("user_id", user_id, LoginActivity.this);

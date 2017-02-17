@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_layout" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -15,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/production"
+            android:textSize="10sp"
             android:gravity="end"
-            android:text="12222"
             />
     </LinearLayout>
     <LinearLayout
@@ -32,7 +34,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/quantity"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
     <LinearLayout
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/billOfMaterial"
             android:gravity="end"
-            android:text="111111111111111"
+            android:textSize="10sp"
             />
     </LinearLayout>
     <LinearLayout
@@ -64,7 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/documentStatus"
             android:gravity="end"
-            android:text="111111111111111"
+            android:textColor="@color/viewfinder_laser"
             />
     </LinearLayout>
     <LinearLayout
@@ -80,7 +81,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/production_list_types"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
     <LinearLayout
@@ -96,7 +96,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/deadline_start"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
     <LinearLayout
@@ -112,7 +111,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/principal"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
     <LinearLayout
@@ -128,7 +126,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/source"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
     <LinearLayout
@@ -144,7 +141,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/warehouse"
             android:gravity="end"
-            android:text="111111111111111"
             />
     </LinearLayout>
 
@@ -182,9 +178,48 @@
             android:text="消耗的"
             android:layout_height="match_parent" />
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recycleView"
+        android:layout_height="80dp"></android.support.v7.widget.RecyclerView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/cc"
+                android:id="@+id/button_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+            <Button
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/cc"
+                android:id="@+id/button_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+            <Button
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/cc"
+                android:id="@+id/button_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
 
+        </LinearLayout>
 
-
+    </RelativeLayout>
 
 </LinearLayout>

@@ -70,6 +70,8 @@ public class SecondaryMenuActivity extends AppCompatActivity {
                 IntentFactory.start_ProductActivity(SecondaryMenuActivity.this,"expensed");
             }else if (strings.get(postion).equals("制造订单")){
                 IntentFactory.start_makeOrderActivity(SecondaryMenuActivity.this);
+            }else if (strings.get(postion).equals("所有调拨")){
+                IntentFactory.start_transfersActivity(SecondaryMenuActivity.this);
             }
         }
 
