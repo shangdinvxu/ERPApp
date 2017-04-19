@@ -45,7 +45,6 @@ public class OKHttpFactory {
 
 //                //必须是设置Cache目录
 //                .cache(cache)
-//
 //                //走缓存，两个都要设置
 //                .addInterceptor(new OnOffLineCachedInterceptor())
 //                .addNetworkInterceptor(new OnOffLineCachedInterceptor())

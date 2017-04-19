@@ -112,6 +112,16 @@ public class OrderDetailResponse {
             private String product_name;
             private List<StockMoveLinesBean> stock_move_lines;
 
+            public String getError() {
+                return error;
+            }
+
+            public void setError(String error) {
+                this.error = error;
+            }
+
+            private String error ;
+
             public boolean isOrigin() {
                 return origin;
             }
@@ -247,6 +257,16 @@ public class OrderDetailResponse {
                 private int stock_move_lines_id;
                 private int id ;
                 private Double over_picking_qty;
+
+                public String getError() {
+                    return error;
+                }
+
+                public void setError(String error) {
+                    this.error = error;
+                }
+
+                private String error;
                 public int getId() {
                     return id;
                 }

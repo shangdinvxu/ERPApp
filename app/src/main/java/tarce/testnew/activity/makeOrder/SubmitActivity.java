@@ -126,7 +126,7 @@ public class SubmitActivity extends BaseAppCompatActivity {
                     bean.setStock_move_lines_id(bean.getId());
                 }
                 objectObjectHashMap.put("stock_moves",items);
-                Call<OrderDetailResponse> orderDetailResponseCall = makeOrderApi.overPicking(objectObjectHashMap);
+                Call<OrderDetailResponse> orderDetailResponseCall = makeOrderApi.finishPrepareMaterial(objectObjectHashMap);
                 orderDetailResponseCall.enqueue(new MyCallback<OrderDetailResponse>() {
                     @Override
                     public void onResponse(Call<OrderDetailResponse> call, Response<OrderDetailResponse> response) {

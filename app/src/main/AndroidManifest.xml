@@ -58,6 +58,11 @@
         <activity android:name=".activity.makeOrder.SubmitActivity"/>
         <activity android:name=".activity.makeOrder.SupplementActivity"/>
         <activity android:name=".activity.Invenytory.TransferActivity"/>
+        <activity android:name=".activity.makeOrder.CheckMaterialActivity"/>
+        <activity android:name=".activity.makeOrder.InventoryCheckActivity"/>
+        <activity android:name=".activity.makeOrder.EditWorkerActivity"/>
+        <activity android:name=".activity.Invenytory.AddWorkerScanActivity"/>
+        
         <activity
             android:name=".activity.Invenytory.SaveActivity"
             android:label="@string/title_activity_save"

@@ -45,7 +45,7 @@ repositories {
 }
 
 greendao {
-    schemaVersion 7
+    schemaVersion 9
     daoPackage 'greendao'
     targetGenDir 'src/main/java'
 }
@@ -76,11 +76,16 @@ dependencies {
     compile 'com.github.Aspsine:SwipeToLoadLayout:1.0.3'
 
     compile 'org.greenrobot:greendao:3.2.0'
+
+
     compile 'cn.yipianfengye.android:zxing-library:2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'cn.hugeterry.updatefun:updatefun:1.6.0'
 
     /**树形View*/
     compile 'com.github.bmelnychuk:atv:1.2.+'
+
+    /**侧滑*/
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
 
 }

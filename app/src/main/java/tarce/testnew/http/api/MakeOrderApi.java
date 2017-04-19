@@ -9,6 +9,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import tarce.testnew.http.bean.requestBean.GetMrpProductionRequestBean;
 import tarce.testnew.http.bean.responseBean.GetMrpProductionResponseBean;
+import tarce.testnew.http.bean.responseBean.GetReturnDetailResponse;
 import tarce.testnew.http.bean.responseBean.OrderDetailResponse;
 
 /**
@@ -48,5 +49,31 @@ public interface MakeOrderApi {
 
     @POST("do_produce")
     Call<OrderDetailResponse> doProduce(@Body HashMap hashMap);
+
+    /**生产完成,送往品检*/
+    @POST("produce_finish")
+    Call<OrderDetailResponse> produceFinish(@Body HashMap hashMap);
+
+    /**开始品检*/
+    @POST("start_quality_inspection")
+    Call<OrderDetailResponse> startQualityInspection(@Body HashMap hashMap);
+
+    /**品检结果*/
+    @POST("inspection_result")
+    Call<OrderDetailResponse> inspectionResult(@Body HashMap hashMap);
+
+    /**点仓库检验物料*/
+    @POST("get_return_detail")
+    Call<GetReturnDetailResponse> getReturnDetail(@Body HashMap hashMap);
+
+    /**最后一次点击提交退料数量*/
+    @POST("return_material")
+    Call<OrderDetailResponse> returnMaterial(@Body HashMap hashMap);
+
+    /**等待入库*/
+    @POST("produce_done")
+    Call<OrderDetailResponse> produceDone(@Body HashMap hashMap);
+
+
 
 }

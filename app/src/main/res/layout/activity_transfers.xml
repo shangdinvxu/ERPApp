@@ -5,10 +5,36 @@
     android:layout_height="match_parent">
     <include layout="@layout/toolbar_layout" />
 
+
+
+
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:hint="搜索"
+        android:id="@+id/search_edittext"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:text="搜索更多"
+        android:layout_height="50dp"
+        android:id="@+id/button"
+        />
+
     <ExpandableListView
+        android:visibility="gone"
         android:id="@+id/expandablelistview"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
 </LinearLayout>

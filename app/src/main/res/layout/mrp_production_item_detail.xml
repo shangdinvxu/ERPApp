@@ -143,6 +143,12 @@
             android:gravity="end"
             />
     </LinearLayout>
+    <Button
+        android:id="@+id/edit_worker"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="编辑工人"
+        />
 
 
     <LinearLayout
@@ -181,7 +187,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recycleView"
-        android:layout_height="80dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="110dp"></android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
         android:layout_width="match_parent"

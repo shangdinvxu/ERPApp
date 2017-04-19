@@ -96,8 +96,5 @@ public class StockMoveLinesAdapter extends RecyclerView.Adapter<StockMoveLinesAd
             quantity_done = (TextView) itemView.findViewById(R.id.quantity_done);
             product = (TextView) itemView.findViewById(R.id.product);
         }
-
-
-
     }
 }
